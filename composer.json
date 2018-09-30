@@ -1,0 +1,13 @@
+{
+    "name": "ahmadmrj/payir",
+    "description": "laravel library to handle payment with pay.ir service",
+    "type": "library",
+    "authors": [
+        {
+            "name": "ahmad",
+            "email": "ahmad.mrj@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
