@@ -12,8 +12,18 @@ class PaymentServiceProvider extends ServiceProvider{
      */
     public function register()
     {
-        $this->app->bind('Payment', function ($app) {
-            return new Payment;
+        $this->app->bind('Payir', function ($app) {
+            return new Payir;
         });
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return array('Payment');
     }
 }
