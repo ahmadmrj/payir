@@ -9,9 +9,7 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {
-        "php": ">=7.0.0"
-    },
+    "require": {},
     "autoload": {
         "psr-0": {
             "Payir": "src"
