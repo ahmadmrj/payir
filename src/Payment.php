@@ -29,4 +29,6 @@ abstract class Payment implements PaymentInterface
     {
         return $this->config;
     }
+
+//    public function
 }

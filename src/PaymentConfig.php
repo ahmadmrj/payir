@@ -13,6 +13,8 @@ class PaymentConfig
 {
     public $gateWayApiUrl;
     public $apiKey;
+    public $callbackUrl;
+    public $verifyUrl;
     public $redirectUrl;
     public $mobileNumber;
 
@@ -21,6 +23,8 @@ class PaymentConfig
         $this->gateWayApiUrl = $config['gateWayApiUrl'];
         $this->apiKey = $config['apiKey'];
         $this->redirectUrl = $config['redirectUrl'];
+        $this->verifyUrl = $config['verifyUrl'];
+        $this->callbackUrl = $config['callbackUrl'];
         $this->mobileNumber = $config['mobileNumber'];
     }
 }
