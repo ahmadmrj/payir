@@ -12,11 +12,13 @@ use Illuminate\Support\Facades\Redirect;
 
 class Payir extends Payment
 {
-    const SUCCESSFUL_STATUS = 1;
+    const SUCCESSFUL_STATUS = '1';
 
     public $apiStatusId;
     public $apiVerifyStatusId;
     public $transId;
+    public $paymentErrorMessage;
+    public $verifyErrorMessage;
 
     public function sendApiRequest($amount,$invoice_id){
     // @Todo: separate tasks
@@ -31,30 +33,29 @@ class Payir extends Payment
         $res = curl_exec($ch);
         curl_close($ch);
 
-        $this->getApiResult($res);
-
-        return $res;
+        return $this->getApiResult($res);
     }
 
     public function getApiResult($result){
         $decoded_result = json_decode($result);
 
         $this->apiStatusId = $decoded_result->status;
-
+        //Api call was successful.
         if($this->apiStatusId === 1){
             $this->transId = $decoded_result->transId;
+
+            return true;
         }
-        else{
-            throw new \Exception("Bank gateway didn't respond: ".$decoded_result->errorMessage);
-            //@TODO: handle Exceptions
+        //call was failed.
+        else
+        {
+            $this->paymentErrorMessage = $decoded_result->errorMessage;
+
+            return false;
         }
     }
 
-    public function goToPaymentGate(){
-        return redirect($this->config->redirectUrl.$this->transId);
-    }
-
-    public function verify(Request $request){
+    public function verify($request){
         $api = $this->config->apiKey;
         $trans_id = $request->transId;
 
@@ -72,14 +73,16 @@ class Payir extends Payment
     public function getApiVerifyResult($result){
         $decoded_result = json_decode($result);
 
-        $this->apiverifyStatusId = $decoded_result->status;
+        $this->apiVerifyStatusId = $decoded_result->status;
 
         if($this->apiVerifyStatusId === 1){
             return true;
         }
-        else{
-            throw new \Exception("Transaction didn't verified: ".$decoded_result->errorMessage);
-            //@TODO: handle Exceptions
+        else
+        {
+            $this->verifyErrorMessage = $decoded_result->errorMessage;
+
+            return false;
         }
     }
 }
